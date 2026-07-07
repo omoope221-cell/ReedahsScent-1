@@ -1,0 +1,82 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Dashboard — Reedah's Scent Admin{% endblock %}
+{% block page_title %}Overview{% endblock %}
+
+{% block dashboard_content %}
+<div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
+    <div class="bg-white border border-stone-200 rounded-lg p-5">
+        <p class="text-xs uppercase tracking-widest text-stone-400 mb-2">Total Orders</p>
+        <p class="font-serif text-3xl">{{ total_orders }}</p>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-lg p-5">
+        <p class="text-xs uppercase tracking-widest text-stone-400 mb-2">Pending Orders</p>
+        <p class="font-serif text-3xl {% if pending_orders > 0 %}text-[#a9895f]{% endif %}">{{ pending_orders }}</p>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-lg p-5">
+        <p class="text-xs uppercase tracking-widest text-stone-400 mb-2">Total Products</p>
+        <p class="font-serif text-3xl">{{ total_products }}</p>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-lg p-5">
+        <p class="text-xs uppercase tracking-widest text-stone-400 mb-2">Confirmed Revenue</p>
+        <p class="font-serif text-3xl">₦{{ total_revenue }}</p>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-3 gap-8">
+    <div class="md:col-span-2 bg-white border border-stone-200 rounded-lg">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-stone-200">
+            <h2 class="font-serif text-lg">Recent Orders</h2>
+            <a href="{% url 'dashboard:order_list' %}" class="text-xs uppercase tracking-widest text-[#a9895f] hover:underline">View all</a>
+        </div>
+        {% if recent_orders %}
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="text-left text-stone-400 uppercase text-xs">
+                    <th class="px-5 py-2">Order</th>
+                    <th class="px-5 py-2">Customer</th>
+                    <th class="px-5 py-2">Status</th>
+                    <th class="px-5 py-2">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr class="border-t border-stone-100 hover:bg-stone-50">
+                    <td class="px-5 py-3"><a href="{% url 'dashboard:order_detail' order.pk %}" class="text-[#a9895f] hover:underline">#{{ order.id }}</a></td>
+                    <td class="px-5 py-3">{{ order.full_name }}</td>
+                    <td class="px-5 py-3">
+                        <span class="px-2 py-0.5 rounded text-xs uppercase tracking-wide
+                            {% if order.status == 'pending' %}bg-amber-100 text-amber-700
+                            {% elif order.status == 'cancelled' %}bg-red-100 text-red-700
+                            {% else %}bg-green-100 text-green-700{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td class="px-5 py-3 text-stone-500">{{ order.created_at|date:"M d, Y" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="px-5 py-8 text-stone-400 text-sm">No orders yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-lg">
+        <div class="px-5 py-4 border-b border-stone-200">
+            <h2 class="font-serif text-lg">Low Stock</h2>
+        </div>
+        {% if low_stock_products %}
+        <ul class="divide-y divide-stone-100">
+            {% for product in low_stock_products %}
+            <li class="px-5 py-3 flex justify-between items-center text-sm">
+                <a href="{% url 'dashboard:product_update' product.pk %}" class="hover:text-[#a9895f]">{{ product.name }}</a>
+                <span class="text-xs font-medium {% if product.stock == 0 %}text-red-600{% else %}text-amber-600{% endif %}">{{ product.stock }} left</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="px-5 py-8 text-stone-400 text-sm">All products are well stocked.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Confirm Delete — Reedah's Scent Admin{% endblock %}
+{% block page_title %}Confirm Delete{% endblock %}
+
+{% block dashboard_content %}
+<div class="max-w-md bg-white border border-stone-200 rounded-lg p-6">
+    <p class="mb-6">Are you sure you want to delete the {{ type_label }} <span class="font-medium">"{{ object }}"</span>? This cannot be undone.</p>
+    <form method="post" class="flex gap-3">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-6 py-2.5 rounded text-sm uppercase tracking-wide hover:bg-red-700 transition">Yes, Delete</button>
+        <a href="javascript:history.back()" class="px-6 py-2.5 rounded text-sm uppercase tracking-wide border border-stone-300 hover:bg-stone-50 transition">Cancel</a>
+    </form>
+</div>
+{% endblock %}

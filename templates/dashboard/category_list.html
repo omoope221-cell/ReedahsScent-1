@@ -1,0 +1,44 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Categories — Reedah's Scent Admin{% endblock %}
+{% block page_title %}Categories{% endblock %}
+
+{% block dashboard_content %}
+<div class="grid md:grid-cols-3 gap-8">
+    <div class="md:col-span-2 bg-white border border-stone-200 rounded-lg overflow-hidden">
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="text-left text-stone-400 uppercase text-xs bg-stone-50">
+                    <th class="px-5 py-3">Name</th>
+                    <th class="px-5 py-3">Products</th>
+                    <th class="px-5 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr class="border-t border-stone-100 hover:bg-stone-50">
+                    <td class="px-5 py-3">{{ category.name }}</td>
+                    <td class="px-5 py-3 text-stone-500">{{ category.product_count }}</td>
+                    <td class="px-5 py-3 text-right">
+                        <a href="{% url 'dashboard:category_delete' category.pk %}" class="text-red-500 hover:underline">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="3" class="px-5 py-10 text-center text-stone-400">No categories yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-lg p-6 h-fit">
+        <h2 class="font-serif text-lg mb-4">Add Category</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-sm font-medium mb-1">Name</label>
+                {{ form.name }}
+            </div>
+            <button type="submit" class="w-full bg-[#1c1712] text-[#f3ead9] px-6 py-2.5 rounded text-sm uppercase tracking-wide hover:bg-[#c8a97e] hover:text-[#1c1712] transition">Add Category</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

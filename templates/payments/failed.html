@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Payment Failed — Reedah's Scent{% endblock %}
+{% block content %}
+<div class="text-center py-16">
+    <h1 class="font-serif text-4xl mb-4 text-red-600">Payment Failed</h1>
+    <p class="text-stone-600 mb-8">Something went wrong with your payment for order #{{ order.id }}. Please try again.</p>
+    <a href="{% url 'orders:order_create' %}" class="inline-block bg-[#1c1712] text-[#f3ead9] px-8 py-3 uppercase tracking-widest text-sm">Try Again</a>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin — Reedah's Scent{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Jost', sans-serif; background:#f6f3ee; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+    </style>
+</head>
+<body class="text-stone-800">
+<div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 shrink-0 bg-[#1c1712] text-[#f3ead9] flex flex-col">
+        <div class="px-6 py-6 border-b border-white/10">
+            <p class="font-serif text-xl tracking-wide">REEDAH'S <span class="italic font-normal">Scent</span></p>
+            <p class="text-xs uppercase tracking-widest text-[#c8a97e] mt-1">Admin Panel</p>
+        </div>
+        <nav class="flex-1 px-3 py-6 space-y-1 text-sm">
+            <a href="{% url 'dashboard:home' %}" class="flex items-center gap-3 px-3 py-2 rounded {% if request.resolver_match.url_name == 'home' %}bg-[#c8a97e] text-[#1c1712]{% else %}hover:bg-white/10{% endif %} transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                Dashboard
+            </a>
+            <a href="{% url 'dashboard:product_list' %}" class="flex items-center gap-3 px-3 py-2 rounded {% if 'product' in request.resolver_match.url_name %}bg-[#c8a97e] text-[#1c1712]{% else %}hover:bg-white/10{% endif %} transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+                Products
+            </a>
+            <a href="{% url 'dashboard:category_list' %}" class="flex items-center gap-3 px-3 py-2 rounded {% if 'category' in request.resolver_match.url_name %}bg-[#c8a97e] text-[#1c1712]{% else %}hover:bg-white/10{% endif %} transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122" /></svg>
+                Categories
+            </a>
+            <a href="{% url 'dashboard:order_list' %}" class="flex items-center gap-3 px-3 py-2 rounded {% if 'order' in request.resolver_match.url_name %}bg-[#c8a97e] text-[#1c1712]{% else %}hover:bg-white/10{% endif %} transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185z" /></svg>
+                Orders
+            </a>
+        </nav>
+        <div class="px-3 py-6 border-t border-white/10">
+            <a href="{% url 'store:home' %}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-white/10 transition text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+                View Store
+            </a>
+            <a href="{% url 'dashboard:logout' %}" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-white/10 transition text-sm text-[#e3a1a1]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0110.5 3h6a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0116.5 21h-6a2.25 2.25 0 01-2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
+                Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+        <header class="bg-white border-b border-stone-200 px-8 py-4">
+            <h1 class="font-serif text-2xl">{% block page_title %}Dashboard{% endblock %}</h1>
+        </header>
+
+        {% if messages %}
+        <div class="px-8 pt-4">
+            {% for message in messages %}
+            <div class="{% if message.tags == 'error' %}bg-red-50 border-red-300 text-red-700{% else %}bg-green-50 border-green-300 text-green-700{% endif %} border px-4 py-2 rounded mb-2 text-sm">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <main class="flex-1 px-8 py-6">
+            {% block dashboard_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+</body>
+</html>

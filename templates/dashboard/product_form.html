@@ -1,0 +1,79 @@
+{% extends "dashboard/base.html" %}
+{% block title %}{{ title }} — Reedah's Scent Admin{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block dashboard_content %}
+<div class="max-w-2xl bg-white border border-stone-200 rounded-lg p-6">
+    <form method="post" enctype="multipart/form-data" class="space-y-5">
+        {% csrf_token %}
+
+        <div class="grid md:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm font-medium mb-1">Name</label>
+                {{ form.name }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Category</label>
+                {{ form.category }}
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm font-medium mb-1">Brand</label>
+                {{ form.brand }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Fragrance Notes</label>
+                {{ form.fragrance_notes }}
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Description</label>
+            {{ form.description }}
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm font-medium mb-1">Price (₦)</label>
+                {{ form.price }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Discount Price (₦, optional)</label>
+                {{ form.discount_price }}
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5 items-end">
+            <div>
+                <label class="block text-sm font-medium mb-1">Stock</label>
+                {{ form.stock }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Image</label>
+                {{ form.image }}
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="w-16 h-16 object-cover rounded mt-2">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex gap-8">
+            <label class="flex items-center gap-2 text-sm">{{ form.is_active }} Active (visible in shop)</label>
+            <label class="flex items-center gap-2 text-sm">{{ form.is_featured }} Featured on homepage</label>
+        </div>
+
+        {% if form.errors %}
+        <div class="bg-red-50 border border-red-200 text-red-700 text-sm rounded px-4 py-2">
+            Please correct the errors below and try again.
+        </div>
+        {% endif %}
+
+        <div class="flex gap-3 pt-2">
+            <button type="submit" class="bg-[#1c1712] text-[#f3ead9] px-6 py-2.5 rounded text-sm uppercase tracking-wide hover:bg-[#c8a97e] hover:text-[#1c1712] transition">Save Product</button>
+            <a href="{% url 'dashboard:product_list' %}" class="px-6 py-2.5 rounded text-sm uppercase tracking-wide border border-stone-300 hover:bg-stone-50 transition">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

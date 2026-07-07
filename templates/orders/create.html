@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Reedah's Scent{% endblock %}
+
+{% block content %}
+<h1 class="font-serif text-3xl mb-8">Checkout</h1>
+
+<div class="grid md:grid-cols-2 gap-12">
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            <label class="block text-sm font-medium mb-1">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<p class="text-red-500 text-xs mt-1">{{ field.errors|striptags }}</p>{% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="w-full bg-[#25D366] text-white px-8 py-3 uppercase tracking-widest text-sm hover:opacity-90 transition mt-4 flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+            Continue on WhatsApp
+        </button>
+        <p class="text-xs text-stone-500 text-center mt-2">You'll be taken to WhatsApp with your order details pre-filled — just hit send.</p>
+    </form>
+
+    <div>
+        <h2 class="font-serif text-xl mb-4">Order Summary</h2>
+        <div class="divide-y divide-stone-200 border-t border-b border-stone-200">
+            {% for item in cart %}
+            <div class="flex justify-between py-3 text-sm">
+                <span>{{ item.product.name }} x {{ item.quantity }}</span>
+                <span>₦{{ item.total_price }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="flex justify-between pt-4 font-medium">
+            <span>Total</span>
+            <span>₦{{ cart.get_total_price }}</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Payment Successful — Reedah's Scent{% endblock %}
+{% block content %}
+<div class="text-center py-16">
+    <h1 class="font-serif text-4xl mb-4 text-green-700">Payment Successful</h1>
+    <p class="text-stone-600 mb-2">Thank you, {{ order.full_name }}! Your order #{{ order.id }} has been confirmed.</p>
+    <p class="text-stone-500 text-sm mb-8">A confirmation has been noted against {{ order.email }}.</p>
+    <a href="{% url 'store:product_list' %}" class="inline-block bg-[#1c1712] text-[#f3ead9] px-8 py-3 uppercase tracking-widest text-sm">Continue Shopping</a>
+</div>
+{% endblock %}

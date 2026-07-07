@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}My Orders — Reedah's Scent{% endblock %}
+{% block content %}
+<h1 class="font-serif text-3xl mb-8">My Orders</h1>
+{% if orders %}
+<div class="divide-y divide-stone-200 border-t border-b border-stone-200">
+    {% for order in orders %}
+    <div class="py-4 flex justify-between items-center text-sm">
+        <div>
+            <p class="font-medium">Order #{{ order.id }}</p>
+            <p class="text-stone-500">{{ order.created_at|date:"M d, Y" }}</p>
+        </div>
+        <span class="uppercase text-xs tracking-widest px-3 py-1 border border-stone-300">{{ order.get_status_display }}</span>
+        <p class="font-medium">₦{{ order.get_total_cost }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-stone-500">You haven't placed any orders yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Shop — Reedah's Scent{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row gap-10">
+    <aside class="md:w-56 shrink-0">
+        <h3 class="font-serif text-xl mb-4">Categories</h3>
+        <ul class="space-y-2 text-sm">
+            <li><a href="{% url 'store:product_list' %}" class="{% if not current_category %}text-[#a9895f] font-medium{% endif %} hover:text-[#a9895f]">All Fragrances</a></li>
+            {% for category in categories %}
+            <li><a href="{{ category.get_absolute_url }}" class="{% if current_category.id == category.id %}text-[#a9895f] font-medium{% endif %} hover:text-[#a9895f]">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <form method="get" action="{% url 'store:product_list' %}" class="mt-8">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search fragrances..." class="w-full border border-stone-300 px-3 py-2 text-sm">
+        </form>
+    </aside>
+
+    <div class="flex-1">
+        <h1 class="font-serif text-3xl mb-8">{% if current_category %}{{ current_category.name }}{% else %}All Fragrances{% endif %}</h1>
+
+        {% if page_obj %}
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {% for product in page_obj %}
+            <a href="{{ product.get_absolute_url }}" class="group">
+                <div class="aspect-square bg-white border border-stone-200 flex items-center justify-center overflow-hidden mb-3">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full group-hover:scale-105 transition">
+                    {% else %}
+                    <span class="text-stone-300 text-sm">No image</span>
+                    {% endif %}
+                </div>
+                <h3 class="font-medium text-sm">{{ product.name }}</h3>
+                {% if product.discount_price %}
+                <p class="text-sm"><span class="line-through text-stone-400">₦{{ product.price }}</span> <span class="text-[#a9895f]">₦{{ product.discount_price }}</span></p>
+                {% else %}
+                <p class="text-[#a9895f] text-sm">₦{{ product.price }}</p>
+                {% endif %}
+                {% if not product.in_stock %}<p class="text-xs text-red-500 mt-1">Out of stock</p>{% endif %}
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="flex justify-center gap-4 mt-10 text-sm">
+            {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="underline">Previous</a>{% endif %}
+            {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="underline">Next</a>{% endif %}
+        </div>
+        {% else %}
+        <p class="text-stone-500">No fragrances found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

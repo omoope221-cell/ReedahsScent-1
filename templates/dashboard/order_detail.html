@@ -1,0 +1,66 @@
+{% extends "dashboard/base.html" %}
+{% block title %}Order #{{ order.id }} — Reedah's Scent Admin{% endblock %}
+{% block page_title %}Order #{{ order.id }}{% endblock %}
+
+{% block dashboard_content %}
+<div class="grid md:grid-cols-3 gap-8">
+    <div class="md:col-span-2 space-y-6">
+        <div class="bg-white border border-stone-200 rounded-lg">
+            <div class="px-5 py-4 border-b border-stone-200">
+                <h2 class="font-serif text-lg">Items</h2>
+            </div>
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="text-left text-stone-400 uppercase text-xs bg-stone-50">
+                        <th class="px-5 py-3">Product</th>
+                        <th class="px-5 py-3">Price</th>
+                        <th class="px-5 py-3">Qty</th>
+                        <th class="px-5 py-3">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr class="border-t border-stone-100">
+                        <td class="px-5 py-3">{{ item.product.name|default:"(deleted product)" }}</td>
+                        <td class="px-5 py-3">₦{{ item.price }}</td>
+                        <td class="px-5 py-3">{{ item.quantity }}</td>
+                        <td class="px-5 py-3">₦{{ item.get_cost }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="border-t border-stone-200 font-medium">
+                        <td class="px-5 py-3" colspan="3">Total</td>
+                        <td class="px-5 py-3">₦{{ order.get_total_cost }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="bg-white border border-stone-200 rounded-lg p-5">
+            <h2 class="font-serif text-lg mb-4">Customer Details</h2>
+            <dl class="grid grid-cols-2 gap-4 text-sm">
+                <div><dt class="text-stone-400 uppercase text-xs mb-1">Name</dt><dd>{{ order.full_name }}</dd></div>
+                <div><dt class="text-stone-400 uppercase text-xs mb-1">Email</dt><dd>{{ order.email }}</dd></div>
+                <div><dt class="text-stone-400 uppercase text-xs mb-1">Phone</dt><dd>{{ order.phone_number }}</dd></div>
+                <div><dt class="text-stone-400 uppercase text-xs mb-1">Placed</dt><dd>{{ order.created_at|date:"M d, Y — H:i" }}</dd></div>
+                <div class="col-span-2"><dt class="text-stone-400 uppercase text-xs mb-1">Delivery Address</dt><dd>{{ order.address }}, {{ order.city }}, {{ order.state }}</dd></div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-lg p-5 h-fit">
+        <h2 class="font-serif text-lg mb-4">Update Status</h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.status }}
+            <button type="submit" class="w-full bg-[#1c1712] text-[#f3ead9] px-6 py-2.5 rounded text-sm uppercase tracking-wide hover:bg-[#c8a97e] hover:text-[#1c1712] transition">Update</button>
+        </form>
+
+        <a href="https://wa.me/{{ order.phone_number }}" target="_blank" class="mt-4 flex items-center justify-center gap-2 w-full bg-[#25D366] text-white px-6 py-2.5 rounded text-sm uppercase tracking-wide hover:opacity-90 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
+            Message Customer
+        </a>
+    </div>
+</div>
+{% endblock %}

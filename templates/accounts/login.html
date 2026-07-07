@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login — Reedah's Scent{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto py-10">
+    <h1 class="font-serif text-3xl mb-8 text-center">Login</h1>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium mb-1">Username</label>
+            <input type="text" name="username" class="w-full border rounded px-3 py-2" required autofocus>
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Password</label>
+            <input type="password" name="password" class="w-full border rounded px-3 py-2" required>
+        </div>
+        {% if form.errors %}<p class="text-red-500 text-xs">Please check your username and password.</p>{% endif %}
+        <button type="submit" class="w-full bg-[#1c1712] text-[#f3ead9] px-8 py-3 uppercase tracking-widest text-sm mt-4">Login</button>
+    </form>
+    <p class="text-sm text-center mt-4">Don't have an account? <a href="{% url 'accounts:signup' %}" class="underline">Sign up</a></p>
+</div>
+{% endblock %}
