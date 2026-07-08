@@ -4,6 +4,7 @@ Django settings for Reedah's Scent project.
 
 from pathlib import Path
 from decouple import config, Csv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -155,3 +156,30 @@ WHATSAPP_NUMBER = config('WHATSAPP_NUMBER', default='2348000000000')
 STORE_BANK_NAME = config('STORE_BANK_NAME', default='Your Bank Name')
 STORE_ACCOUNT_NUMBER = config('STORE_ACCOUNT_NUMBER', default='0000000000')
 STORE_ACCOUNT_NAME = config('STORE_ACCOUNT_NAME', default="Reedah's Scent")
+
+# import os
+
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".onrender.com",
+    "reedahscent.onrender.com",   # Replace with your Render URL if different
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://reedahscent.onrender.com",  # Replace with your Render URL if different
+]
+
+# Let Django know it's behind Render's HTTPS proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = "DENY"
